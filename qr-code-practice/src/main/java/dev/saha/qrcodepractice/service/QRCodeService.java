@@ -7,4 +7,6 @@ public interface QRCodeService {
     void downloadQRCodeImage(QRCode code);
 
     void getQRCode(Model model, String qrCodeImagePath);
+    
+    Optional<String> generateQRCodeByte(String content, int width, int height);
 }
