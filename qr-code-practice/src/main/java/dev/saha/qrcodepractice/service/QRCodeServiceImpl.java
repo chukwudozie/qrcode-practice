@@ -53,4 +53,27 @@ public class QRCodeServiceImpl implements QRCodeService {
         model.addAttribute("github",github);
         model.addAttribute("qrcode",qrcode);
     }
+    
+        @Override
+    public Optional<String> generateQRCodeByte(String content, int width, int height) {
+        if (!content.isEmpty() && width > 0 && height > 0) {
+            HashMap<String, Object> output = new HashMap<>();
+            String qr = "";
+            byte[] image = new byte[0];
+            try {
+                image = QRCodeGenerator.getQRCodeImage(content, width, height);
+                qr = Base64.getEncoder().encodeToString(image);
+            } catch (WriterException | IOException e) {
+                log.error("Exception occurred in QR CODE Image generation {}", e.getMessage());
+            }
+            if (!qr.isEmpty()) output.put(qr, image);
+            log.info("output {}",output);
+            return Optional.of(qr);
+
+        } else{
+            log.error("Content must not be empty\nWidth must be greater than 0\n" +
+                    "Height must be greater than 0");
+            return Optional.empty();
+        }
+    }
 }
