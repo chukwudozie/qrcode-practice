@@ -16,4 +16,10 @@ public class QRController {
     public void downloadQRCodeImage (@RequestBody QRCode code){
         qrCodeService.downloadQRCodeImage(code);
     }
+    
+    @GetMapping("/generate")
+    public ResponseEntity<?> generateQRCodeInByte(@RequestParam String content, @RequestParam int width,
+    @RequestParam int height) {
+        return ResponseEntity.ok(qrCodeService.generateQRCodeByte(content, width,height));
+    }
 }
